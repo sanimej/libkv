@@ -230,7 +230,7 @@ func (b *BoltDB) AtomicPut(key string, value []byte, previous *store.KVPair, opt
 		if dbIndex != previous.LastIndex {
 			return store.ErrKeyModified
 		}
-		atomic.AddUint64(&b.dbIndex, 1)
+		dbIndex = atomic.AddUint64(&b.dbIndex, 1)
 		binary.LittleEndian.PutUint64(dbval, b.dbIndex)
 		dbval = append(dbval, value...)
 		return (bucket.Put([]byte(key), dbval))
